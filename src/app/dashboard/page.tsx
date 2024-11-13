@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { FormControl, FormDescription } from "@/components/ui/form";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -45,7 +46,7 @@ export default function DashboardPage() {
           <h3>{format(new Date(), "dd MMMM yyyy")}</h3>
         </div>
 
-        <div className="grid gap-16 md:grid-cols-3 lg:grid-cols-3 p-10 pt-4">
+        <div className="grid gap-16 md:grid-cols-2 lg:grid-cols-2 p-10 pt-4">
           <Card className="hover:cursor-pointer hover:bg-zinc-50 hover:border-black">
             <CardHeader className="text-center">
               <CardTitle>Jumlah Penerbitan SIM</CardTitle>
@@ -53,74 +54,75 @@ export default function DashboardPage() {
                 {format(new Date(), "dd MMMM yyyy")}
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="area">Jenis SIM</Label>
-                <Select defaultValue="billing">
-                  <SelectTrigger id="area">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="team">SIM A</SelectItem>
-                    <SelectItem value="billing">SIM B-1</SelectItem>
-                    <SelectItem value="account">SIM B-2</SelectItem>
-                    <SelectItem value="deployments">SIM C</SelectItem>
-                    <SelectItem value="support">SIM D</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <CardContent className="flex  gap-6">
+              <div className="space-y-6">
+                <div className="flex w-full max-w-sm items-center space-x-2">
+                  <Label className="w-24 font-semibold">Polres : </Label>
+                  <Input type="email" placeholder="Polres xxx" disabled className="border border-black" />
+                  <br />
+                </div>
+                <div className="flex w-full max-w-sm items-center space-x-2">
+                  <Label className="w-24 font-semibold">Tanggal : </Label>
+                  <Input
+                    type="email"
+                    placeholder={format(new Date(), "dd MMMM yyyy")}
+                    disabled
+                    className="border border-black"
+                  />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">Jumlah Produksi :</Label>
+                  <Input type="email" id="email" placeholder="Masukkan Nilai" className="border border-black" />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Jumlah Surat Kesehatan Fisik :
+                  </Label>
+                  <Input type="email" id="email" placeholder="Masukkan Nilai" className="border border-black" />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Jumlah Surat Kesehatan Psikologi :
+                  </Label>
+                  <Input type="email" id="email" placeholder="Masukkan Nilai" className="border border-black" />
+                </div>
+                <br />
+                <Label className="font-semibold text-xl">Justifikasi</Label>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Anggota TNI / Polri :
+                  </Label>
+                  <Input type="email" id="email" placeholder="Masukkan Nilai" className="border border-black" />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Aplikasi ONLINE :
+                  </Label>
+                  <Input type="email" id="email" placeholder="Masukkan Nilai" className="border border-black" />
+                </div>
+              <Button className="bg-orange-500"> SUBMIT </Button>
 
-              <div className="grid gap-2">
-                <Label htmlFor="area">Jumlah</Label>
-                <Input placeholder="Masukkan Jumlah" type="number" />
               </div>
-              <Button className="bg-orange-500"> Input </Button>
+              <div className="space-y-4">
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Selisih Kesehatan Fisik  :
+                  </Label>
+                  <Input type="email" id="email" placeholder="otomatis" className="py-8 w-[80px] bg-yellow-200" disabled />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label className="font-semibold">
+                    Selisih Kesehatan Psikologi :
+                  </Label>
+                  <Input type="email" id="email" placeholder="otomatis" disabled className="py-8 w-[80px] bg-yellow-200" />
+                </div>
+                
+              </div>
+              
+
             </CardContent>
           </Card>
-          <Card className="hover:cursor-pointer hover:bg-zinc-50 hover:border-black">
-            <CardHeader className="text-center">
-              <CardTitle>Jumlah Penerbitan SIM Kurang Persyaratan</CardTitle>
-              <CardDescription>
-                {format(new Date(), "dd MMMM yyyy")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="area">Jenis SIM</Label>
-                <Select defaultValue="billing">
-                  <SelectTrigger id="area">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="team">SIM A</SelectItem>
-                    <SelectItem value="billing">SIM B-1</SelectItem>
-                    <SelectItem value="account">SIM B-2</SelectItem>
-                    <SelectItem value="deployments">SIM C</SelectItem>
-                    <SelectItem value="support">SIM D</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
 
-              <div className="grid gap-2">
-                <Label htmlFor="area">Jamkesnas</Label>
-                <Select defaultValue="billing">
-                  <SelectTrigger id="area">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="team">Ada</SelectItem>
-                    <SelectItem value="billing">Tidak Ada</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="area">Jumlah</Label>
-                <Input placeholder="Masukkan Jumlah" type="number" />
-              </div>
-              <Button className="bg-orange-500"> Input </Button>
-            </CardContent>
-          </Card>
           <Card className="hover:cursor-pointer hover:bg-zinc-50 hover:border-black">
             <CardHeader>
               <CardTitle>Data Rekapitulasi Bulan Ini</CardTitle>
