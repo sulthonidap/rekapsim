@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { FormControl, FormDescription } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { use, useState } from "react";
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
@@ -36,6 +36,9 @@ export default function DashboardPage() {
   const [selectItems, setSelectItems] = useState([
     { id: Date.now(), value: "" },
   ]);
+  const [healthPhysical, setHealthPhysical] = useState("");
+  const [healthMental, setHealthMental] = useState("");
+  const [productValues, setProductValues] = useState<{ [key: number]: string }>({});
 
   const addSelectItem = () => {
     if (selectItems.length < 5) {
@@ -45,19 +48,24 @@ export default function DashboardPage() {
     }
   };
 
-  const handleSelectChange = (id, value) => {
+  const handleSelectChange = (id: number, value: string) => {
     setSelectItems(
       selectItems.map((item) => (item.id === id ? { ...item, value } : item))
     );
   };
 
-  const removeSelectItem = (id) => {
+  const removeSelectItem = (id : number) => {
     setSelectItems(selectItems.filter((item) => item.id !== id));
   };
 
+  const handleProductChange = (id: number, value: string) => {
+    setProductValues((prev) => ({ ...prev, [id]: value }));
+  };
+
+  
   return (
     <>
-      <div className="hidden flex-col md:flex">
+      <div className=" flex-col md:flex">
         <div className="sticky top-0 z-40">
           <Navbar />
         </div>
@@ -79,7 +87,7 @@ export default function DashboardPage() {
               <h3>{format(new Date(), "dd MMMM yyyy")}</h3>
             </div>
 
-            <div className="grid gap-16 md:grid-cols-2 lg:grid-cols-2 p-10 pt-4">
+            <div className="grid gap-16 p-2 md:grid-cols-1 lg:grid-cols-2 md:p-10 md:pt-4">
               <Card className="hover:cursor-pointer hover:bg-zinc-50 hover:border-black">
                 <CardHeader className="text-center">
                   <CardTitle>Jumlah Penerbitan SIM</CardTitle>
@@ -87,7 +95,7 @@ export default function DashboardPage() {
                     {format(new Date(), "dd MMMM yyyy")}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex  gap-6">
+                <CardContent className="md:flex gap-6">
                   <div className="space-y-6">
                     <div className="flex w-full max-w-sm items-center space-x-2">
                       <Label className="w-24 font-semibold">Polres : </Label>
@@ -111,7 +119,7 @@ export default function DashboardPage() {
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                       <div className="grid gap-2 mb-6">
                         <Label className="font-semibold flex justify-between items-center">
-                          <span>Jumlah Produksi SIM </span>
+                          <span>Jumlah Produksi SIM : {selectItems.reduce((acc, item) => acc + (parseFloat(productValues[item.id]) || 0), 0)}</span>
                           <Button onClick={addSelectItem}>Tambah +</Button>
                         </Label>
                         {selectItems.map((item) => (
@@ -146,6 +154,8 @@ export default function DashboardPage() {
                               id={`email-${item.id}`}
                               placeholder={`Jumlah ${item.value}`}
                               className="border border-black"
+                              value={productValues[item.id] || ""}
+                              onChange={(e) => handleProductChange(item.id, e.target.value)}
                             />
                             <Button
                               onClick={() => removeSelectItem(item.id)}
@@ -163,9 +173,11 @@ export default function DashboardPage() {
                       </Label>
                       <Input
                         type="email"
-                        id="email"
+                        id="healthPhysical"
                         placeholder="Masukkan Nilai"
                         className="border border-black"
+                        value={healthPhysical}
+                        onChange={(e) => setHealthPhysical(e.target.value)}
                       />
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -177,8 +189,28 @@ export default function DashboardPage() {
                         id="email"
                         placeholder="Masukkan Nilai"
                         className="border border-black"
+                        value={healthMental}
+                        onChange={(e) => setHealthMental(e.target.value)}
                       />
                     </div>
+                    <div className="block md:hidden space-y-4 ">
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                      <Label className="font-semibold">
+                        Selisih Kesehatan Fisik : 
+                        <div className="text-2xl font-bold bg-yellow-400 w-fit p-2 rounded">{selectItems.reduce((sum, item) => sum + (parseFloat(productValues[item.id]) || 0), 0) - parseFloat(healthPhysical) || 0}</div>
+                      </Label>
+
+                    </div>
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                      <Label className="font-semibold">
+                        Selisih Kesehatan Psikologi :
+                        <div className="text-2xl font-bold bg-yellow-400 w-fit p-2 rounded">
+                          {selectItems.reduce((sum, item) => sum + (parseFloat(productValues[item.id]) || 0), 0) - parseFloat(healthMental) || 0}
+                          </div>
+                      </Label>
+                      
+                    </div>
+                  </div>
                     <br />
                     <Label className="font-semibold text-xl">Justifikasi <span className="text-xs italic mt-[-10]"><br />*upload photo</span></Label>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -202,30 +234,22 @@ export default function DashboardPage() {
                     </div>
                     <Button className="bg-orange-500"> SUBMIT </Button>
                   </div>
-                  <div className="space-y-4">
+                  <div className="hidden md:block space-y-4 ">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                       <Label className="font-semibold">
-                        Selisih Kesehatan Fisik :
+                        Selisih Kesehatan Fisik : 
+                        <div className="text-2xl font-bold bg-yellow-400 w-fit p-2 rounded">{selectItems.reduce((sum, item) => sum + (parseFloat(productValues[item.id]) || 0), 0) - parseFloat(healthPhysical) || 0}</div>
                       </Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        placeholder="otomatis"
-                        className="py-8 w-[80px] bg-yellow-200"
-                        disabled
-                      />
+
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                       <Label className="font-semibold">
                         Selisih Kesehatan Psikologi :
+                        <div className="text-2xl font-bold bg-yellow-400 w-fit p-2 rounded">
+                          {selectItems.reduce((sum, item) => sum + (parseFloat(productValues[item.id]) || 0), 0) - parseFloat(healthMental) || 0}
+                          </div>
                       </Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        placeholder="otomatis"
-                        disabled
-                        className="py-8 w-[80px] bg-yellow-200"
-                      />
+                      
                     </div>
                   </div>
                 </CardContent>
@@ -283,7 +307,9 @@ export default function DashboardPage() {
                           </svg>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">127</div>
+                          <div className="text-2xl font-bold">
+                          {selectItems.reduce((acc, item) => acc + (parseFloat(productValues[item.id]) || 0), 0)}
+                          </div>
                         </CardContent>
                       </Card>
 

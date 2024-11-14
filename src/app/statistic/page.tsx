@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <>
-      <div className="hidden flex-col md:flex">
+      <div className=" flex-col md:flex">
         <div className="sticky top-0 z-40">
         <Navbar />
         </div>
@@ -142,8 +142,8 @@ export default function DashboardPage() {
           </div>
           <br />
           <h2 className="text-2xl font-bold tracking-tight">Jenis SIM</h2>
-          <div className="gap-4 md:grid-cols-3 lg:grid-cols-3 flex flex-row">
-            <Card className="flex-1">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Card className="">
               <CardHeader>
                 <CardTitle>SIM Perorangan</CardTitle>
               </CardHeader>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
                 <Overview />
               </CardContent>
             </Card>
-            <Card className="flex-1">
+            <Card className="">
               <CardHeader>
                 <CardTitle>SIM Umum</CardTitle>
               </CardHeader>
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                 <SIMUmum />
               </CardContent>
             </Card>
-            <Card className="flex-1">
+            <Card className="">
               <CardHeader>
                 <CardTitle>SIM Internasional</CardTitle>
               </CardHeader>
